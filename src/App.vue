@@ -1,17 +1,18 @@
 <template>
-  <div id="app">
-
-  </div>
+  <InfoCard>
+    <h2>Revenue last 3 years</h2>
+  </InfoCard>
 </template>
 
 <script>
+import InfoCard from "./components/InfoCard.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    
-  }
-}
+    InfoCard,
+  },
+};
 </script>
 
 <style>
@@ -20,8 +21,14 @@ body {
 }
 
 #app {
-  background: radial-gradient(71.11% 100% at 50% 0%, #020204 14.6%, #011F35 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   min-height: 100vh;
   width: 100vw;
+  background: radial-gradient(
+    71.11% 100% at 50% 0%,
+    #020204 14.6%,
+    #011f35 100%
+  );
+  padding: 300px;
+  box-sizing: border-box;
 }
 </style>
