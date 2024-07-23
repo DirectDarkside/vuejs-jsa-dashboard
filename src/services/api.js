@@ -18,6 +18,19 @@ const order = [
 ];
 
 class StockService {
+  companyDatas = [
+    {
+      title: "Apple",
+      titleImgSrc: "apple.png",
+      data: []
+    },
+    {
+      title: "Amazon",
+      titleImgSrc: "amazon.png",
+      data: []
+    },
+  ];
+
   constructor() {
     this.api = axios.create({
       baseURL: "https://sheetdb.io/api/v1/",

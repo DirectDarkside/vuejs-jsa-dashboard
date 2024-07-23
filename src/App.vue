@@ -1,44 +1,45 @@
 <template>
   <h1>The Magnificent Seven Companies</h1>
   <header>
-    <InfoCard class="info_card">
-      <h2>
-        <img src="./assets/img/apple.png" alt="apple logo" />
-        Apple
-      </h2>
-      <p>Revenue Q1 2024</p>
-      <div class="info_card_data">
-        <b class="info_card_current_price">38.52</b>
-        <div>
-          <span>+1.06 <img src="./assets/img/arrow-top-green.png" alt="top green arrow"></span>
-          <span>2.83 %</span>
-        </div>
-      </div>
-      <p>In Bill USD</p>
-    </InfoCard>
+    <ul v-if="companyDatas.length > 0">
+      <li v-for="companyData in companyDatas" :key="companyData.title">
+        <InfoCard :title="companyData.title" :titleImgSrc="require(`@/assets/img/${companyData.titleImgSrc}`)">
+        </InfoCard>
+      </li>
+    </ul>
+    <p v-else-if="error">Fehler beim Laden der Daten: {{ error.message }}</p>
+    <p v-else>Daten werden geladen...</p>
   </header>
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
 import InfoCard from "./components/InfoCard.vue";
-// import { stockService } from "./services/api.js";
+import { stockService } from "./services/api.js";
 
 export default {
   name: "App",
   components: {
     InfoCard,
   },
-  async created() {
-    // try {
-    //   this.sheetData = await stockService.getRevenue(
-    //     "szmcovl2hrz4z?sheet=$AAPL"
-    //   );
-    //   console.log("Loaded Data", this.sheetData);
-    // } catch (error) {
-    //   this.error = error;
-    // } finally {
-    //   this.loading = false;
-    // }
+  setup() {
+    const companyDatas = ref([]);
+    const error = ref(null);
+    const loading = ref(true);
+
+    onMounted(async () => {
+      try {
+        // const data = await stockService.getRevenue("szmcovl2hrz4z?sheet=$AAPL");
+        const data = stockService.companyDatas;
+        companyDatas.value = data;
+      } catch (err) {
+        error.value = err;
+      } finally {
+        loading.value = false;
+      }
+    });
+
+    return { companyDatas, error, loading };
   },
 };
 </script>
@@ -52,51 +53,16 @@ header {
   background: #023a6233;
   padding: 24px;
   border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+}
+
+header ul {
   gap: 24px;
-}
-
-.info_card {
   display: flex;
-  flex-direction: column;
-}
-
-.info_card h2 {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin: 0;
-  font-size: 20px;
-}
-
-.info_card > p {
-  font-size: 12px;
-}
-
-.info_card > p:last-child {
-  margin-bottom: 0;
-  font-size: 8px;
-}
-
-.info_card_data {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.info_card_data > div {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-}
-
-.info_card_current_price {
-  font-weight: 500;
-  font-size: 24px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 #app {
