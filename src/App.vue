@@ -3,7 +3,10 @@
   <header>
     <ul v-if="companyDatas.length > 0">
       <li v-for="companyData in companyDatas" :key="companyData.title">
-        <InfoCard :title="companyData.title" :titleImgSrc="require(`@/assets/img/${companyData.titleImgSrc}`)">
+        <InfoCard
+          :title="companyData.title"
+          :titleImgSrc="require(`@/assets/img/${companyData.titleImgSrc}`)"
+        >
         </InfoCard>
       </li>
     </ul>
@@ -13,7 +16,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 import InfoCard from "./components/InfoCard.vue";
 import { stockService } from "./services/api.js";
 
@@ -28,10 +31,10 @@ export default {
     const loading = ref(true);
 
     onMounted(async () => {
+      const data = stockService.companyDatas;
+      companyDatas.value = data;
       try {
         // const data = await stockService.getRevenue("szmcovl2hrz4z?sheet=$AAPL");
-        const data = stockService.companyDatas;
-        companyDatas.value = data;
       } catch (err) {
         error.value = err;
       } finally {

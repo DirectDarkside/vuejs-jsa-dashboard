@@ -22,37 +22,72 @@ class StockService {
     {
       title: "Apple",
       titleImgSrc: "apple.png",
-      data: []
+      revenueRow: 5,
+      netIncomeRow: 36,
+      grossMargin: 23,
+      revenueData: [],
+      netIncomeData: [],
+      grossMarginData: [],
     },
     {
       title: "Amazon",
       titleImgSrc: "amazon.png",
-      data: []
+      revenueRow: 9,
+      netIncomeRow: 41,
+      grossMargin: 15,
+      revenueData: [],
+      netIncomeData: [],
+      grossMarginData: [],
     },
     {
       title: "Google",
       titleImgSrc: "google.png",
-      data: []
+      revenueRow: 5,
+      netIncomeRow: 41,
+      grossMargin: 25,
+      revenueData: [],
+      netIncomeData: [],
+      grossMarginData: [],
     },
     {
       title: "Meta",
       titleImgSrc: "meta.png",
-      data: []
+      revenueRow: 5,
+      netIncomeRow: 27,
+      grossMargin: 11,
+      revenueData: [],
+      netIncomeData: [],
+      grossMarginData: [],
     },
     {
       title: "Microsoft",
       titleImgSrc: "microsoft.png",
-      data: []
+      revenueRow: 9,
+      netIncomeRow: 30,
+      grossMargin: 15,
+      revenueData: [],
+      netIncomeData: [],
+      grossMarginData: [],
     },
     {
       title: "Nvidia",
       titleImgSrc: "nvidia.png",
-      data: []
+      revenueRow: 5,
+      netIncomeRow: 29,
+      grossMargin: 11,
+      revenueData: [],
+      netIncomeData: [],
+      grossMarginData: [],
     },
     {
       title: "Tesla",
       titleImgSrc: "tesla.png",
-      data: []
+      revenueRow: 13,
+      netIncomeRow: 44,
+      grossMargin: 26,
+      revenueData: [],
+      netIncomeData: [],
+      grossMarginData: [],
     },
   ];
 
