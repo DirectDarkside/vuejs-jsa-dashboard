@@ -1,5 +1,22 @@
 import axios from "axios";
 
+const order = [
+  "",
+  "Mar 21",
+  "Jun 21",
+  "Sep 21",
+  "Dec 21",
+  "Mar 22",
+  "Jun 22",
+  "Sep 22",
+  "Dec 22",
+  "Mar 23",
+  "3 Aug 23",
+  "2 Nov 23",
+  "1 Feb 24",
+  "2 Mai 24",
+];
+
 class StockService {
   constructor() {
     this.api = axios.create({
@@ -15,6 +32,11 @@ class StockService {
       console.error("Cannot load the Data:", error);
       throw error; // Fehler weitergeben zur Behandlung in der Komponente
     }
+  }
+
+  async getRevenue(sheetName) {
+    const date = await this.fetchSheetData(sheetName);
+    return order.map(key => date[3][key]);
   }
 }
 

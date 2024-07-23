@@ -15,7 +15,6 @@
     background-color: #011F35;
     border-radius: 16px;
     padding: 24px 32px;
-    color: #FFFFFF;
   }
   </style>
   
