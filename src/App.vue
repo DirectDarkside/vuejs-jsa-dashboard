@@ -6,12 +6,23 @@
 
 <script>
 import InfoCard from "./components/InfoCard.vue";
+import { stockService } from "./services/api.js";
 
 export default {
   name: "App",
   components: {
     InfoCard,
   },
+  async created() {
+    try {
+      this.sheetData = await stockService.fetchSheetData('szmcovl2hrz4z');
+      console.log("Loaded Data", this.sheetData);
+    } catch (error) {
+      this.error = error;
+    } finally {
+      this.loading = false;
+    }
+  }
 };
 </script>
 
