@@ -53,16 +53,18 @@ header {
   background: #023a6233;
   padding: 24px;
   border-radius: 20px;
+  overflow-x: auto;
 }
 
 header ul {
   gap: 24px;
   display: flex;
-  justify-content: center;
   align-items: center;
   list-style-type: none;
   margin: 0;
   padding: 0;
+  width: fit-content;
+  margin-right: 8px;
 }
 
 #app {

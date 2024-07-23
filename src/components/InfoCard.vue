@@ -49,6 +49,11 @@ export default {
   font-size: 20px;
 }
 
+.info_card h2 img {
+  width: 24px;
+  object-fit: contain;
+}
+
 .info_card > p {
   font-size: 12px;
 }
@@ -70,6 +75,16 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 8px;
+}
+
+.info_card_data > div > span {
+  display: flex;
+  gap: 4px;
+}
+
+.info_card_data > div > span > img {
+  object-fit: contain;
+  width: 8px;
 }
 
 .info_card_current_price {

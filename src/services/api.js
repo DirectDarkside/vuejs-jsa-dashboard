@@ -29,6 +29,31 @@ class StockService {
       titleImgSrc: "amazon.png",
       data: []
     },
+    {
+      title: "Google",
+      titleImgSrc: "google.png",
+      data: []
+    },
+    {
+      title: "Meta",
+      titleImgSrc: "meta.png",
+      data: []
+    },
+    {
+      title: "Microsoft",
+      titleImgSrc: "microsoft.png",
+      data: []
+    },
+    {
+      title: "Nvidia",
+      titleImgSrc: "nvidia.png",
+      data: []
+    },
+    {
+      title: "Tesla",
+      titleImgSrc: "tesla.png",
+      data: []
+    },
   ];
 
   constructor() {
