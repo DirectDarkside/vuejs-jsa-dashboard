@@ -2,7 +2,7 @@
   <h1>The Magnificent Seven Companies</h1>
   <section class="section_header">
     <header id="header">
-      <ul v-if="companyDatas.length > 0">
+      <ul id="u_list" v-if="companyDatas.length > 0">
         <li v-for="companyData in companyDatas" :key="companyData.title">
           <InfoCard
             :title="companyData.title"
@@ -33,9 +33,16 @@
     <span
       @click="scrollRight()"
       v-if="companyDatas.length > 0"
-      class="header_right_arrow"
+      :class="{ 'header_right_arrow': isRightArrow, 'd-none': !isRightArrow }"
     >
       <img src="@/assets/img/arrow.png" alt="right arrow" />
+    </span>
+    <span
+      @click="scrollLeft()"
+      v-if="companyDatas.length > 0"
+      :class="{ 'header_left_arrow': isLeftArrow, 'd-none': !isLeftArrow }"
+    >
+      <img src="@/assets/img/arrow.png" alt="left arrow" />
     </span>
   </section>
 </template>
@@ -43,7 +50,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import InfoCard from "./components/InfoCard.vue";
-import { stockService } from "./services/api.js";
+// import { stockService } from "./services/api.js";
 
 export default {
   name: "App",
@@ -54,29 +61,60 @@ export default {
     const companyDatas = ref([]);
     const error = ref(null);
     const loading = ref(true);
-    const convertToNumber = (list) => {
-      list.forEach((data) => {
-        const replacedData = data.data.replace(",", ".");
-        data.data = Number(replacedData).toFixed(2);
-      });
-      return list;
-    };
+    let isRightArrow = ref(true);
+    let isLeftArrow = ref(false);
+    // const convertToNumber = (list) => {
+    //   list.forEach((data) => {
+    //     const replacedData = data.data.replace(",", ".");
+    //     data.data = Number(replacedData).toFixed(2);
+    //   });
+    //   return list;
+    // };
     const scrollRight = () => {
-      document.getElementById("header").scrollLeft += 100;
-    }
+      const headerElement = document.getElementById("header");
+      const uListElement = document.getElementById("u_list"); 
+      if (headerElement && uListElement) {
+        const scrollLeft = headerElement.scrollLeft;
+        const scrollWidth = uListElement.scrollWidth;
+        const clientWidth = headerElement.clientWidth;
+        if (scrollLeft + clientWidth >= scrollWidth) {
+          console.log("Scrollbar ist am Ende!");
+          isRightArrow.value = false;
+        } else {
+          headerElement.scrollLeft += 200;
+          isLeftArrow.value = true;
+        }
+      }
+    };
+    const scrollLeft = () => {
+      const headerElement = document.getElementById("header");
+      const uListElement = document.getElementById("u_list"); 
+      if (headerElement && uListElement) {
+        const scrollLeft = headerElement.scrollLeft;
+        if (scrollLeft == 0) {
+          console.log("Scrollbar ist am Anfang!");
+          isLeftArrow.value = false;
+        } else {
+          headerElement.scrollLeft -= 200;
+          isRightArrow.value = true;
+        }
+      }
+    };
 
     onMounted(async () => {
       try {
-        const data = stockService.companyDatas;
-        // Array mit Promises erstellen
-        const promises = data.map(async (company, index) => {
-          const fetchedData = await stockService.getData(company.url, index);
-          company.revenueData = convertToNumber(fetchedData.revenue);
-          company.netIncomeData = convertToNumber(fetchedData.netIncome);
-          company.grossMarginData = fetchedData.grossMargin;
-        });
-        // Auf den Abschluss aller API-Aufrufe warten
-        await Promise.all(promises);
+        // const data = stockService.companyDatas;
+        // // Array mit Promises erstellen
+        // const promises = data.map(async (company, index) => {
+        //   const fetchedData = await stockService.getData(company.url, index);
+        //   company.revenueData = convertToNumber(fetchedData.revenue);
+        //   company.netIncomeData = convertToNumber(fetchedData.netIncome);
+        //   company.grossMarginData = fetchedData.grossMargin;
+        // });
+        // // Auf den Abschluss aller API-Aufrufe warten
+        // await Promise.all(promises);
+        // localStorage.setItem("localData", JSON.stringify(data));
+        const data = JSON.parse(localStorage.getItem("localData"));
         companyDatas.value = data; // Daten zuweisen, nachdem alle Promises erfüllt sind
       } catch (err) {
         error.value = err;
@@ -84,12 +122,16 @@ export default {
         loading.value = false;
       }
     });
-    return { companyDatas, error, loading, scrollRight };
+    return { companyDatas, error, loading, scrollRight, scrollLeft, isRightArrow, isLeftArrow };
   },
 };
 </script>
 
 <style>
+.d-none {
+  display: none !important;
+}
+
 body {
   margin: 0;
   scroll-behavior: smooth;
@@ -142,5 +184,20 @@ header ul {
   right: -16px;
   top: 43%;
   cursor: pointer;
+}
+
+.header_left_arrow {
+  background-color: #36d4ff;
+  padding: 8px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  position: absolute;
+  left: -16px;
+  top: 43%;
+  cursor: pointer;
+  transform: rotate(180deg);
 }
 </style>

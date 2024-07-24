@@ -26,8 +26,8 @@ export default {
     title: String,
     titleImgSrc: String,
     revenueDate: String,
-    revenueData: Number,
-    netIncomeData: Number,
+    revenueData: String,
+    netIncomeData: String,
     grossMarginData: String,
   },
 };

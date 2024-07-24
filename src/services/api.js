@@ -5,7 +5,7 @@ class StockService {
     {
       title: "Apple",
       titleImgSrc: "apple.png",
-      url: "szmcovl2hrz4z?sheet=$AAPL",
+      url: "fim91wicrbr01?sheet=$AAPL",
       revenueRow: 3,
       netIncomeRow: 34,
       grossMargin: 21,
@@ -16,7 +16,7 @@ class StockService {
     {
       title: "Amazon",
       titleImgSrc: "amazon.png",
-      url: "szmcovl2hrz4z?sheet=$AMZN",
+      url: "fim91wicrbr01?sheet=$AMZN",
       revenueRow: 7,
       netIncomeRow: 39,
       grossMargin: 13,
@@ -27,7 +27,7 @@ class StockService {
     {
       title: "Google",
       titleImgSrc: "google.png",
-      url: "szmcovl2hrz4z?sheet=$GOOG",
+      url: "fim91wicrbr01?sheet=$GOOG",
       revenueRow: 3,
       netIncomeRow: 39,
       grossMargin: 23,
@@ -38,7 +38,7 @@ class StockService {
     {
       title: "Meta",
       titleImgSrc: "meta.png",
-      url: "szmcovl2hrz4z?sheet=$META",
+      url: "fim91wicrbr01?sheet=$META",
       revenueRow: 3,
       netIncomeRow: 25,
       grossMargin: 9,
@@ -49,7 +49,7 @@ class StockService {
     {
       title: "Microsoft",
       titleImgSrc: "microsoft.png",
-      url: "szmcovl2hrz4z?sheet=$MSFT",
+      url: "fim91wicrbr01?sheet=$MSFT",
       revenueRow: 7,
       netIncomeRow: 28,
       grossMargin: 13,
@@ -60,7 +60,7 @@ class StockService {
     {
       title: "Nvidia",
       titleImgSrc: "nvidia.png",
-      url: "szmcovl2hrz4z?sheet=$NVDA",
+      url: "fim91wicrbr01?sheet=$NVDA",
       revenueRow: 3,
       netIncomeRow: 27,
       grossMargin: 9,
@@ -71,7 +71,7 @@ class StockService {
     {
       title: "Tesla",
       titleImgSrc: "tesla.png",
-      url: "szmcovl2hrz4z?sheet=$TSLA",
+      url: "fim91wicrbr01?sheet=$TSLA",
       revenueRow: 11,
       netIncomeRow: 42,
       grossMargin: 24,
