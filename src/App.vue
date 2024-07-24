@@ -32,14 +32,21 @@ export default {
 
     onMounted(async () => {
       const data = stockService.companyDatas;
-      companyDatas.value = data;
-      try {
-        // const data = await stockService.getRevenue("szmcovl2hrz4z?sheet=$AAPL");
-      } catch (err) {
-        error.value = err;
-      } finally {
-        loading.value = false;
-      }
+      data.forEach(async (company, index) => {
+        const fetchedData = await stockService.getData(company.url, index);
+        company.revenueData = fetchedData.revenue;
+        company.netIncomeData = fetchedData.netIncome;
+        company.grossMarginData = fetchedData.grossMargin;
+      });
+      console.log(stockService.companyDatas);
+      // companyDatas.value = data;
+      // try {
+      //   const data = await stockService.getRevenue("szmcovl2hrz4z?sheet=$AAPL");
+      // } catch (err) {
+      //   error.value = err;
+      // } finally {
+      //   loading.value = false;
+      // }
     });
 
     return { companyDatas, error, loading };
