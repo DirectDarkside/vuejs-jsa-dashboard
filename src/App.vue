@@ -45,17 +45,20 @@
       <img src="@/assets/img/arrow.png" alt="left arrow" />
     </span>
   </section>
+  <RenueveLastYearsCard></RenueveLastYearsCard>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
 import InfoCard from "./components/InfoCard.vue";
+import RenueveLastYearsCard from "./components/RenueveLastYearsCard.vue";
 // import { stockService } from "./services/api.js";
 
 export default {
   name: "App",
   components: {
     InfoCard,
+    RenueveLastYearsCard,
   },
   setup() {
     const companyDatas = ref([]);
@@ -78,7 +81,6 @@ export default {
         const scrollWidth = uListElement.scrollWidth;
         const clientWidth = headerElement.clientWidth;
         if (scrollLeft + clientWidth >= scrollWidth) {
-          console.log("Scrollbar ist am Ende!");
           isRightArrow.value = false;
         } else {
           headerElement.scrollLeft += 200;
@@ -92,7 +94,6 @@ export default {
       if (headerElement && uListElement) {
         const scrollLeft = headerElement.scrollLeft;
         if (scrollLeft == 0) {
-          console.log("Scrollbar ist am Anfang!");
           isLeftArrow.value = false;
         } else {
           headerElement.scrollLeft -= 200;
@@ -142,6 +143,7 @@ header {
   padding: 24px;
   border-radius: 20px;
   overflow-x: hidden;
+  margin-bottom: 24px;
 }
 
 header ul {
