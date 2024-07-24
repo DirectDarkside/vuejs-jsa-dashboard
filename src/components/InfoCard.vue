@@ -9,10 +9,10 @@
       <b class="info_card_current_price">{{ revenueData }}</b>
       <div>
         <span
-          >+1.06
+          >+ {{ netIncomeData }}
           <img src="../assets/img/arrow-top-green.png" alt="top green arrow"
         /></span>
-        <span>2.83 %</span>
+        <span>{{ grossMarginData }}</span>
       </div>
     </div>
     <p>In Bill USD</p>
@@ -27,6 +27,8 @@ export default {
     titleImgSrc: String,
     revenueDate: String,
     revenueData: Number,
+    netIncomeData: Number,
+    grossMarginData: String,
   },
 };
 </script>
@@ -77,6 +79,8 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 8px;
+  font-size: 13px;
+  width: 64px;
 }
 
 .info_card_data > div > span {

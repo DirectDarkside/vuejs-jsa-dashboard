@@ -1,7 +1,7 @@
 <template>
   <h1>The Magnificent Seven Companies</h1>
   <header>
-    <ul v-if="companyDatas.length > 0">
+    <ul>
       <li v-for="companyData in companyDatas" :key="companyData.title">
         <InfoCard
           :title="companyData.title"
@@ -13,12 +13,16 @@
           :revenueData="
             companyData.revenueData[companyData.revenueData.length - 1].data
           "
+          :netIncomeData="
+            companyData.netIncomeData[companyData.netIncomeData.length - 1].data
+          "
+          :grossMarginData="
+            companyData.grossMarginData[companyData.grossMarginData.length - 1].data
+          "
         >
         </InfoCard>
       </li>
     </ul>
-    <p v-else-if="error">Fehler beim Laden der Daten: {{ error.message }}</p>
-    <p v-else>Daten werden geladen...</p>
   </header>
 </template>
 
