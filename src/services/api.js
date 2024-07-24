@@ -13,17 +13,17 @@ class StockService {
       netIncomeData: [],
       grossMarginData: [],
     },
-    // {
-    //   title: "Amazon",
-    //   titleImgSrc: "amazon.png",
-    //   url: "szmcovl2hrz4z?sheet=$AMZN",
-    //   revenueRow: 7,
-    //   netIncomeRow: 41,
-    //   grossMargin: 15,
-    //   revenueData: [],
-    //   netIncomeData: [],
-    //   grossMarginData: [],
-    // },
+    {
+      title: "Amazon",
+      titleImgSrc: "amazon.png",
+      url: "szmcovl2hrz4z?sheet=$AMZN",
+      revenueRow: 7,
+      netIncomeRow: 41,
+      grossMargin: 15,
+      revenueData: [],
+      netIncomeData: [],
+      grossMarginData: [],
+    },
     // {
     //   title: "Google",
     //   titleImgSrc: "google.png",
@@ -113,10 +113,12 @@ class StockService {
 
     // 4. Sortierte Schlüssel-Wert-Paare ausgeben
     for (const key of keys) {
-      sortData.push({
-        date: key,
-        data: data[key],
-      });
+      if(key.length != 0 && key != " @doppelgaengerio @pip_net") {
+        sortData.push({
+          date: key,
+          data: data[key],
+        });
+      }
     }
     return sortData;
   }
