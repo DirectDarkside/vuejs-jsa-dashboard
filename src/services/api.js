@@ -118,7 +118,7 @@ class StockService {
 
     // 4. Sortierte Schlüssel-Wert-Paare ausgeben
     for (const key of keys) {
-      if(key.length != 0 && key != " @doppelgaengerio @pip_net") {
+      if(key.length != 0 && key != " @doppelgaengerio @pip_net" && key != "Release") {
         sortData.push({
           date: key,
           data: data[key],

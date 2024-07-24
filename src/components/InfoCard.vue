@@ -4,9 +4,9 @@
       <img :src="titleImgSrc" alt="apple logo" />
       {{ title }}
     </h2>
-    <p>Revenue Q1 2024</p>
+    <p>Revenue {{ revenueDate }}</p>
     <div class="info_card_data">
-      <b class="info_card_current_price">38.52</b>
+      <b class="info_card_current_price">{{ revenueData }}</b>
       <div>
         <span
           >+1.06
@@ -25,6 +25,8 @@ export default {
   props: {
     title: String,
     titleImgSrc: String,
+    revenueDate: String,
+    revenueData: Number,
   },
 };
 </script>

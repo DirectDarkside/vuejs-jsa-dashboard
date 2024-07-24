@@ -6,6 +6,13 @@
         <InfoCard
           :title="companyData.title"
           :titleImgSrc="require(`@/assets/img/${companyData.titleImgSrc}`)"
+          v-if="companyData.revenueData && companyData.revenueData.length > 0"
+          :revenueDate="
+            companyData.revenueData[companyData.revenueData.length - 1].date
+          "
+          :revenueData="
+            companyData.revenueData[companyData.revenueData.length - 1].data
+          "
         >
         </InfoCard>
       </li>
@@ -36,10 +43,12 @@ export default {
         data.forEach(async (company, index) => {
           const fetchedData = await stockService.getData(company.url, index);
           company.revenueData = fetchedData.revenue;
+          company.revenueData = convertToNumber(company.revenueData);
           company.netIncomeData = fetchedData.netIncome;
+          company.netIncomeData = convertToNumber(company.netIncomeData);
           company.grossMarginData = fetchedData.grossMargin;
         });
-        console.log(stockService.companyDatas);
+        console.log(data);
         companyDatas.value = data;
       } catch (err) {
         error.value = err;
@@ -50,6 +59,14 @@ export default {
     return { companyDatas, error, loading };
   },
 };
+
+function convertToNumber(list) {
+  list.forEach((data) => {
+    const replacedData = data.data.replace(",", ".");
+    data.data = Number(replacedData).toFixed(2);
+  });
+  return list;
+}
 </script>
 
 <style>
