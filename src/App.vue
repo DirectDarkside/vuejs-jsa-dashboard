@@ -33,14 +33,14 @@
     <span
       @click="scrollRight()"
       v-if="companyDatas.length > 0"
-      :class="{ 'header_right_arrow': isRightArrow, 'd-none': !isRightArrow }"
+      :class="{ header_right_arrow: isRightArrow, 'd-none': !isRightArrow }"
     >
       <img src="@/assets/img/arrow.png" alt="right arrow" />
     </span>
     <span
       @click="scrollLeft()"
       v-if="companyDatas.length > 0"
-      :class="{ 'header_left_arrow': isLeftArrow, 'd-none': !isLeftArrow }"
+      :class="{ header_left_arrow: isLeftArrow, 'd-none': !isLeftArrow }"
     >
       <img src="@/assets/img/arrow.png" alt="left arrow" />
     </span>
@@ -75,7 +75,7 @@ export default {
     // };
     const scrollRight = () => {
       const headerElement = document.getElementById("header");
-      const uListElement = document.getElementById("u_list"); 
+      const uListElement = document.getElementById("u_list");
       if (headerElement && uListElement) {
         const scrollLeft = headerElement.scrollLeft;
         const scrollWidth = uListElement.scrollWidth;
@@ -90,7 +90,7 @@ export default {
     };
     const scrollLeft = () => {
       const headerElement = document.getElementById("header");
-      const uListElement = document.getElementById("u_list"); 
+      const uListElement = document.getElementById("u_list");
       if (headerElement && uListElement) {
         const scrollLeft = headerElement.scrollLeft;
         if (scrollLeft == 0) {
@@ -100,6 +100,89 @@ export default {
           isRightArrow.value = true;
         }
       }
+    };
+    const aggregateQuarterlyData = (companyDatas) => {
+      const today = new Date();
+      const currentYear = today.getFullYear();
+      const currentQuarter = Math.floor(today.getMonth() / 3) + 1; // Aktuelles Quartal (1-4)
+
+      // Ermittle das Startjahr aus den Daten
+      const firstDate = parseDate(companyDatas[0].date);
+      console.log("Zu parsende Date: ", companyDatas[0].date);
+      console.log("firstDate: ", firstDate);
+      const startYear = firstDate.getFullYear();
+
+      console.log("Startjahr wird ermittelt: ", companyDatas);
+
+      const filteredData = companyDatas.filter((data) => {
+        const date = parseDate(data.date);
+        const year = date.getFullYear();
+        const quarter = Math.floor(date.getMonth() / 3) + 1;
+        return (
+          year >= startYear &&
+          year <= currentYear &&
+          (year < currentYear || quarter <= currentQuarter)
+        );
+      });
+
+      console.log("startYear: ", startYear);
+      const quarterlyData = [];
+      for (let year = startYear; year <= currentYear; year++) {
+        const endQuarter = year === currentYear ? currentQuarter : 4; // Nur bis zum aktuellen Quartal im aktuellen Jahr
+        console.log(endQuarter);
+        for (let quarter = 1; quarter <= endQuarter; quarter++) {
+          quarterlyData.push({
+            year,
+            quarter,
+            revenue: 0,
+            netIncome: 0,
+            grossMargin: 0,
+          });
+        }
+      }
+
+      filteredData.forEach((data) => {
+        const date = parseDate(data.date);
+        const year = date.getFullYear();
+        const quarter = Math.floor(date.getMonth() / 3) + 1;
+
+        // Korrigierter quarterIndex
+        const quarterIndex = (year - startYear) * 4 + quarter - 1;
+
+        quarterlyData[quarterIndex].revenue += parseFloat(
+          data.data.replace(",", ".")
+        );
+        // ... andere Werte (netIncome, grossMargin) summieren, falls vorhanden
+      });
+      console.log(quarterlyData);
+      // return quarterlyData;
+    };
+
+    const parseDate = (dateStr) => {
+      const parts = dateStr.split(" ");
+
+      // Überprüfen, ob Tag vorhanden ist
+      const day = parts.length === 3 ? parseInt(parts[0], 10) : 1; // Wenn kein Tag, nehme den 1. an
+
+      const monthAbbrev = parts[parts.length - 2]; // Monat ist immer das vorletzte Element
+      const year = parseInt(parts[parts.length - 1], 10) + 2000; // Jahr ist immer das letzte Element
+
+      const monthIndex = {
+        Jan: 0,
+        Feb: 1,
+        Mar: 2,
+        Apr: 3,
+        Mai: 4,
+        Jun: 5,
+        Jul: 6,
+        Aug: 7,
+        Sep: 8,
+        Oct: 9,
+        Nov: 10,
+        Dec: 11,
+      }[monthAbbrev];
+
+      return new Date(year, monthIndex, day);
     };
 
     onMounted(async () => {
@@ -116,6 +199,8 @@ export default {
         // await Promise.all(promises);
         // localStorage.setItem("localData", JSON.stringify(data));
         const data = JSON.parse(localStorage.getItem("localData"));
+        console.log(data);
+        aggregateQuarterlyData(data[0].revenueData);
         companyDatas.value = data; // Daten zuweisen, nachdem alle Promises erfüllt sind
       } catch (err) {
         error.value = err;
@@ -123,7 +208,15 @@ export default {
         loading.value = false;
       }
     });
-    return { companyDatas, error, loading, scrollRight, scrollLeft, isRightArrow, isLeftArrow };
+    return {
+      companyDatas,
+      error,
+      loading,
+      scrollRight,
+      scrollLeft,
+      isRightArrow,
+      isLeftArrow,
+    };
   },
 };
 </script>
