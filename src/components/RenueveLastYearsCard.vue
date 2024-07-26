@@ -1,28 +1,29 @@
 <template>
   <section class="card">
     {{ message }}
-    <Bar :data="data" :options="options" />
+    <Line :data="data" :options="options" />
   </section>
 </template>
 
 <script>
 import {
   Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
+  Legend
 } from 'chart.js'
-import { Bar } from 'vue-chartjs'
+import { Line } from 'vue-chartjs'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement,Title, Tooltip, Legend)
 
 export default {
   name: "RenueveLastYearsCard",
   components: {
-    Bar,
+    Line,
   },
   data() {
     return {
@@ -31,7 +32,26 @@ export default {
         datasets: [{ data: [40, 20, 12] }]
       },
       options: {
-        responsive: true
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'white'  // Schriftfarbe der Legende auf weiß setzen
+            }
+          }
+        },
+        scales: { // Schriftfarbe der Achsenbeschriftungen auf weiß setzen
+          x: {
+            ticks: {
+              color: 'white'
+            }
+          },
+          y: {
+            ticks: {
+              color: 'white'
+            }
+          }
+        }
       }
     }
   }
