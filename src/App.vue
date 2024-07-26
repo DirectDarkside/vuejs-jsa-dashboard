@@ -45,7 +45,7 @@
       <img src="@/assets/img/arrow.png" alt="left arrow" />
     </span>
   </section>
-  <RenueveLastYearsCard></RenueveLastYearsCard>
+  <RenueveLastYearsCard :revenueData="filteredRevenueData"></RenueveLastYearsCard>
 </template>
 
 <script>
@@ -62,6 +62,7 @@ export default {
   },
   setup() {
     const companyDatas = ref([]);
+    const filteredRevenueData = ref([]);
     const error = ref(null);
     const loading = ref(true);
     let isRightArrow = ref(true);
@@ -108,11 +109,7 @@ export default {
 
       // Ermittle das Startjahr aus den Daten
       const firstDate = parseDate(companyDatas[0].date);
-      console.log("Zu parsende Date: ", companyDatas[0].date);
-      console.log("firstDate: ", firstDate);
       const startYear = firstDate.getFullYear();
-
-      console.log("Startjahr wird ermittelt: ", companyDatas);
 
       const filteredData = companyDatas.filter((data) => {
         const date = parseDate(data.date);
@@ -125,11 +122,9 @@ export default {
         );
       });
 
-      console.log("startYear: ", startYear);
       const quarterlyData = [];
       for (let year = startYear; year <= currentYear; year++) {
         const endQuarter = year === currentYear ? currentQuarter : 4; // Nur bis zum aktuellen Quartal im aktuellen Jahr
-        console.log(endQuarter);
         for (let quarter = 1; quarter <= endQuarter; quarter++) {
           quarterlyData.push({
             year,
@@ -154,8 +149,7 @@ export default {
         );
         // ... andere Werte (netIncome, grossMargin) summieren, falls vorhanden
       });
-      console.log(quarterlyData);
-      // return quarterlyData;
+      return quarterlyData;
     };
 
     const parseDate = (dateStr) => {
@@ -200,7 +194,7 @@ export default {
         // localStorage.setItem("localData", JSON.stringify(data));
         const data = JSON.parse(localStorage.getItem("localData"));
         console.log(data);
-        aggregateQuarterlyData(data[0].revenueData);
+        filteredRevenueData.value = aggregateQuarterlyData(data[0].revenueData);
         companyDatas.value = data; // Daten zuweisen, nachdem alle Promises erfüllt sind
       } catch (err) {
         error.value = err;
@@ -216,6 +210,7 @@ export default {
       scrollLeft,
       isRightArrow,
       isLeftArrow,
+      filteredRevenueData,
     };
   },
 };

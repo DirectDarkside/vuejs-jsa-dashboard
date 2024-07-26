@@ -14,11 +14,20 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend
-} from 'chart.js'
-import { Line } from 'vue-chartjs'
+  Legend,
+} from "chart.js";
+import { Line } from "vue-chartjs";
+import { onMounted, ref, toRaw } from "vue";
 
-ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement,Title, Tooltip, Legend)
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export default {
   name: "RenueveLastYearsCard",
@@ -26,38 +35,53 @@ export default {
     Line,
   },
   props: {
-    
+    revenueData: Array,
   },
-  data() {
-    return {
-      data: {
-        labels: ['January', 'February', 'March'],
-        datasets: [{ data: [40, 20, 12] }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            labels: {
-              color: 'white'  // Schriftfarbe der Legende auf weiß setzen
-            }
-          }
-        },
-        scales: { // Schriftfarbe der Achsenbeschriftungen auf weiß setzen
-          x: {
-            ticks: {
-              color: 'white'
-            }
+  setup(props) {
+    const data = ref({});
+    const options = ref({});
+    data.value = {
+      labels: ["January", "February", "March"],
+      datasets: [{ data: [40, 20, 12] }],
+    };
+    options.value = {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            color: "white", // Schriftfarbe der Legende auf weiß setzen
           },
-          y: {
-            ticks: {
-              color: 'white'
-            }
-          }
-        }
-      }
-    }
-  }
+        },
+      },
+      scales: {
+        // Schriftfarbe der Achsenbeschriftungen auf weiß setzen
+        x: {
+          ticks: {
+            color: "white",
+          },
+        },
+        y: {
+          ticks: {
+            color: "white",
+          },
+        },
+      },
+    };
+
+    onMounted(() => {
+      const rawData = toRaw(props.revenueData);
+      const mappedRevues = { data: [] };
+      mappedRevues.data = rawData.map((data) => data.revenue);
+      console.log(mappedRevues);
+
+      data.value = {
+        labels: ["January", "February", "March"],
+        datasets: [mappedRevues],
+      };
+    });
+
+    return { data, options };
+  },
 };
 </script>
 
