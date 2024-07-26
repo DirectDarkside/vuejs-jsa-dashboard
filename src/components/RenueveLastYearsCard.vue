@@ -71,11 +71,12 @@ export default {
     onMounted(() => {
       const rawData = toRaw(props.revenueData);
       const mappedRevues = { data: [] };
+      const mappedQuarterly = rawData.map(data => `Q${data.quarter} ${data.year}`);
       mappedRevues.data = rawData.map((data) => data.revenue);
-      console.log(mappedRevues);
+      console.log(mappedQuarterly);
 
       data.value = {
-        labels: ["January", "February", "March"],
+        labels: mappedQuarterly,
         datasets: [mappedRevues],
       };
     });
