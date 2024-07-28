@@ -52,6 +52,7 @@
 import { ref, onMounted } from "vue";
 import InfoCard from "./components/InfoCard.vue";
 import RenueveLastYearsCard from "./components/RenueveLastYearsCard.vue";
+import { useStore } from "vuex";
 // import { stockService } from "./services/api.js";
 
 export default {
@@ -61,6 +62,7 @@ export default {
     RenueveLastYearsCard,
   },
   setup() {
+    const store = useStore();
     const companyDatas = ref([]);
     const filteredRevenueData = ref([]);
     const error = ref(null);
@@ -194,6 +196,7 @@ export default {
         // localStorage.setItem("localData", JSON.stringify(data));
         const data = JSON.parse(localStorage.getItem("localData"));
         console.log(data);
+        store.commit('SET_DATA', data);
         filteredRevenueData.value = aggregateQuarterlyData(data[0].revenueData);
         companyDatas.value = data; // Daten zuweisen, nachdem alle Promises erfüllt sind
       } catch (err) {
@@ -203,6 +206,7 @@ export default {
       }
     });
     return {
+      store,
       companyDatas,
       error,
       loading,

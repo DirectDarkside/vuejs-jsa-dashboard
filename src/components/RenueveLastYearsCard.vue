@@ -1,5 +1,5 @@
 <template>
-  <section class="card">
+  <section v-if="revenueData.length > 0" class="card">
     {{ message }}
     <Line :data="data" :options="options" />
   </section>
@@ -70,10 +70,14 @@ export default {
 
     onMounted(() => {
       const rawData = toRaw(props.revenueData);
-      const mappedRevues = { data: [] };
-      const mappedQuarterly = rawData.map(data => `Q${data.quarter} ${data.year}`);
+      const mappedRevues = {
+        label: "Test",
+        data: [],
+      };
+      const mappedQuarterly = rawData.map(
+        (data) => `Q${data.quarter} ${data.year}`
+      );
       mappedRevues.data = rawData.map((data) => data.revenue);
-      console.log(mappedQuarterly);
 
       data.value = {
         labels: mappedQuarterly,
