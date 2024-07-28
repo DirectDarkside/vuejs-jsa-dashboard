@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,7 +18,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "vue-chartjs";
-import { onMounted, ref, toRaw } from "vue";
+import { onMounted, ref, toRaw, watch } from "vue";
 
 ChartJS.register(
   CategoryScale,
@@ -37,9 +38,47 @@ export default {
   props: {
     revenueData: Array,
   },
-  setup(props) {
-    const data = ref({});
+  setup() {
+    const store = useStore();
+    const data = ref({
+      dataList: [],
+    });
     const options = ref({});
+
+    const filterLabels = (labelList) => {
+      const currentYear = new Date().getFullYear(); // Aktuelles Jahr
+      const startYear = currentYear - 2; // Drei Jahre zurück
+
+      const uniqueQuartersLastThreeYears = [
+        ...new Set(
+          labelList.filter((quarter) => {
+            const year = parseInt(quarter.split(" ")[1]);
+            return year >= startYear && year <= currentYear;
+          })
+        ),
+      ];
+      return uniqueQuartersLastThreeYears;
+    };
+
+    const sortData = (list) => {
+      const sortedList = [];
+      list.forEach((company) => {
+        const sortedCompany = {
+          title: company.title,
+          quarterly: [],
+          revenues: [],
+        };
+        sortedCompany.quarterly = company.filteredRevenueData.map(
+          (data) => `Q${data.quarter} ${data.year}`
+        );
+        sortedCompany.revenues = company.filteredRevenueData.map(
+          (data) => data.revenue
+        );
+        sortedList.push(sortedCompany);
+      });
+      return sortedList;
+    };
+
     data.value = {
       labels: ["January", "February", "March"],
       datasets: [{ data: [40, 20, 12] }],
@@ -68,8 +107,48 @@ export default {
       },
     };
 
+    watch(
+      () => store.state.companyData,
+      (newValue) => {
+        const gettedData = toRaw(newValue);
+        const newChartData = {
+          labels: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+          ],
+          datasets: [],
+        };
+        const labels = [];
+        const sortedList = sortData(gettedData);
+        console.log("sortedList: ", sortedList);
+
+        sortedList.forEach((list) => {
+          const dataset = {
+            label: list.title,
+            backgroundColor: "#f87979",
+            data: list.revenues,
+          };
+          list.quarterly.forEach((quarterly) => labels.push(quarterly));
+          newChartData.datasets.push(dataset);
+        });
+        const filteredLabels = filterLabels(labels);
+
+        data.value = {
+          labels: filteredLabels,
+          datasets: newChartData.datasets,
+        };
+      }
+    );
+
     onMounted(() => {
-      const rawData = toRaw(props.revenueData);
+      const rawData = store.state.companyData;
+      // console.log(store.state.companyData);
+      // const rawData = toRaw(props.revenueData);
       const mappedRevues = {
         label: "Test",
         data: [],

@@ -11,7 +11,7 @@ const store = createStore({
   },
   mutations: {
     SET_DATA(state, data) {
-        state.revenueData = data;
+        state.companyData = data;
       },
   },
 });

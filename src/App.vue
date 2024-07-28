@@ -194,9 +194,12 @@ export default {
         // // Auf den Abschluss aller API-Aufrufe warten
         // await Promise.all(promises);
         // localStorage.setItem("localData", JSON.stringify(data));
-        const data = JSON.parse(localStorage.getItem("localData"));
-        console.log(data);
+        const data = await JSON.parse(localStorage.getItem("localData"));
+        data.forEach((company, index) => {
+          company.filteredRevenueData = aggregateQuarterlyData(data[index].revenueData)
+        });
         store.commit('SET_DATA', data);
+        console.log(data);
         filteredRevenueData.value = aggregateQuarterlyData(data[0].revenueData);
         companyDatas.value = data; // Daten zuweisen, nachdem alle Promises erfüllt sind
       } catch (err) {
